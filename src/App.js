@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react"; // Add useCallback
 import { ethers, BrowserProvider, Contract, parseEther } from "ethers";
 import HRChainABI from "./HRChain.json";
 import clickSound from "./click.wav";
@@ -72,7 +72,7 @@ function App() {
     }
   };
 
-  const fetchEmployerJobs = async () => {
+  const fetchEmployerJobs = useCallback(async () => {
     if (!contract || !account) {
       console.warn("Cannot fetch jobs: contract or account not set");
       return;
@@ -105,7 +105,7 @@ function App() {
         theme: theme,
       });
     }
-  };
+  }, [contract, account, theme]);
 
   useEffect(() => {
     if (contract) {
@@ -148,7 +148,7 @@ function App() {
         contract.off("JobClosed", onJobClosed);
       };
     }
-  }, [contract, theme]);
+  }, [contract, theme, fetchEmployerJobs]);
 
   const listJob = async () => {
     if (!contract) return;
