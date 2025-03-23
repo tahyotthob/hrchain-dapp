@@ -1,0 +1,340 @@
+/* Cosmic Background */
+.App.dark {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #050014 0%, #1a0b2e 100%); /* Darker gradient */
+  color: #e0d6ff;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.App.light {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%);
+  color: #1a0b2e;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 40px 20px;
+  position: relative;
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  color: #ff5e78; /* Neon coral */
+  text-shadow: 0 0 15px #ff5e78, 0 0 25px #5efcff;
+  margin: 0;
+}
+
+.tagline {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  color: #5efcff; /* Neon cyan */
+  text-shadow: 0 0 5px #5efcff;
+  margin-bottom: 20px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 16px;
+  background: #5efcff;
+  border: none;
+  border-radius: 20px;
+  color: #0d0221;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.theme-toggle:hover {
+  background: #ff5e78;
+  box-shadow: 0 0 10px #ff5e78;
+}
+
+/* Connect Pod */
+.connect-pod {
+  text-align: center;
+  padding: 50px;
+}
+
+/* Dashboard */
+.dashboard {
+  padding: 20px;
+}
+
+.account {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #ffd700;
+  text-shadow: 0 0 5px #ffd700;
+  margin-bottom: 30px;
+}
+
+.App.light .account {
+  color: #ff5e78;
+  text-shadow: 0 0 5px #ff5e78;
+}
+
+/* Galaxy Map */
+.galaxy-map {
+  margin: 40px 0;
+  text-align: center;
+}
+
+.galaxy-map h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #ff5e78;
+  font-size: 2rem;
+  text-shadow: 0 0 5px #ff5e78;
+}
+
+.App.light .galaxy-map h2 {
+  color: #1a0b2e;
+  text-shadow: 0 0 5px #ff5e78;
+}
+
+/* Filter */
+.filter {
+  margin-bottom: 20px;
+}
+
+.filter label {
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.filter select {
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #e0d6ff;
+  border-radius: 5px;
+  color: #e0d6ff;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.App.light .filter select {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid #1a0b2e;
+  color: #1a0b2e;
+}
+
+/* Job Cards */
+.job-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.job-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 2px solid #5efcff;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: fadeIn 1s ease-in;
+}
+
+.App.light .job-card {
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px solid #ff5e78;
+}
+
+.job-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #5efcff;
+}
+
+.App.light .job-card:hover {
+  box-shadow: 0 0 15px #ff5e78;
+}
+
+.job-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: #e0d6ff;
+  margin: 0 0 10px;
+}
+
+.App.light .job-card h3 {
+  color: #1a0b2e;
+}
+
+.job-card p {
+  font-size: 0.9rem;
+  color: #a29bfe;
+}
+
+.App.light .job-card p {
+  color: #4a3c6d;
+}
+
+.job-card .glow-btn {
+  background: #5efcff;
+  margin-top: 10px;
+}
+
+.App.light .job-card .glow-btn {
+  background: #ff5e78;
+}
+
+/* Job Pods */
+.job-pods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.pod {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 2px solid;
+  border-radius: 15px;
+  padding: 25px;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: fadeIn 1s ease-in;
+}
+
+.App.light .pod {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.pod:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px currentColor;
+}
+
+.list-pod { border-color: #ff5e78; }
+.apply-pod { border-color: #5efcff; }
+.view-pod { border-color: #ffd700; }
+.close-pod { border-color: #ff4d4d; }
+
+.pod h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #e0d6ff;
+  font-size: 1.5rem;
+  margin: 0 0 10px;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.App.light .pod h2 {
+  color: #1a0b2e;
+}
+
+.pod p {
+  color: #e0d6ff;
+  font-size: 0.9rem;
+  margin: 0 0 15px;
+}
+
+.App.light .pod p {
+  color: #4a3c6d;
+}
+
+.pod input {
+  display: block;
+  margin: 10px auto;
+  padding: 8px;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #e0d6ff;
+  border-radius: 5px;
+  color: #e0d6ff;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.App.light .pod input {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid #1a0b2e;
+  color: #1a0b2e;
+}
+
+.pod input::placeholder {
+  color: #a29bfe;
+}
+
+.App.light .pod input::placeholder {
+  color: #4a3c6d;
+}
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Glowing Buttons */
+.glow-btn {
+  padding: 10px 20px;
+  background: currentColor;
+  border: none;
+  border-radius: 25px;
+  color: #0d0221;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.App.light .glow-btn {
+  color: #fff;
+}
+
+.list-pod .glow-btn { background: #ff5e78; }
+.apply-pod .glow-btn { background: #5efcff; }
+.view-pod .glow-btn { background: #ffd700; }
+.close-pod .glow-btn { background: #ff4d4d; }
+.connect-pod .glow-btn { background: #5efcff; }
+
+.glow-btn:hover {
+  box-shadow: 0 0 20px currentColor;
+  transform: translateY(-3px);
+}
+
+/* Job Info */
+.job-info {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.App.light .job-info {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.job-info p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #e0d6ff;
+}
+
+.App.light .job-info p {
+  color: #1a0b2e;
+}
