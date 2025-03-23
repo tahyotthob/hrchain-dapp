@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { ethers, BrowserProvider, Contract, parseEther } from "ethers";
 import HRChainABI from "./HRChain.json";
-import clickSound from "./click.wav"; // Your sound file
+import clickSound from "./click.wav";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-const CONTRACT_ADDRESS = "0x53dD1b708b3B23cdD63eD6Fc882780dEBb647BA0"; // Replace with your address
-const RPC_URL = "https://rpc.nexus.xyz/http"; // Replace with Nexus RPC
-const CHAIN_ID = "393"; // Replace with Nexus Chain ID
+const CONTRACT_ADDRESS = "0x53dD1b708b3B23cdD63eD6Fc882780dEBb647BA0";
+const RPC_URL = "https://rpc.nexus.xyz/http";
+const CHAIN_ID = "393";
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -27,18 +27,15 @@ function App() {
   const [theme, setTheme] = useState("dark");
   const clickAudio = new Audio(clickSound);
 
-  // Play sound on button click
   const playSound = () => {
     clickAudio.play().catch((error) => console.log("Sound play error:", error));
   };
 
-  // Toggle theme
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
     playSound();
   };
 
-  // Connect wallet
   const connectWallet = async () => {
     if (!window.ethereum) {
       alert("Please install MetaMask!");
@@ -75,27 +72,41 @@ function App() {
     }
   };
 
-  // Fetch employer jobs
   const fetchEmployerJobs = async () => {
-    if (!contract || !account) return;
+    if (!contract || !account) {
+      console.warn("Cannot fetch jobs: contract or account not set");
+      return;
+    }
     try {
       const jobs = await contract.getEmployerJobs(account, 0, 10);
+      console.log('Raw Job IDs:', jobs);
+      if (jobs.length === 0) {
+        console.log("No jobs found for employer:", account);
+      }
       const jobDetailsPromises = jobs.map(async (jobId) => {
         const details = await contract.getJob(jobId);
+        console.log(`Job ${jobId} Raw Status:`, details.status);
+        const jobStatus = Number(details.status) === 0 ? "Open" : "Closed";
+        console.log(`Job ${jobId} Interpreted Status:`, jobStatus);
         return {
           id: jobId.toString(),
           title: details.title,
-          status: details.status === 0 ? "Open" : "Closed",
+          status: jobStatus,
         };
       });
       const jobDetails = await Promise.all(jobDetailsPromises);
+      console.log('Processed Employer Jobs:', jobDetails);
       setEmployerJobs(jobDetails);
     } catch (error) {
       console.error("Error fetching jobs:", error);
+      toast.error("Failed to fetch jobs. Check the console for details.", {
+        position: "top-right",
+        autoClose: 5000,
+        theme: theme,
+      });
     }
   };
 
-  // Listen for events
   useEffect(() => {
     if (contract) {
       const onJobListed = (jobId, employer) => {
@@ -115,19 +126,30 @@ function App() {
         });
       };
 
+      const onJobClosed = (jobId) => {
+        console.log(`Job ${jobId} closed`);
+        fetchEmployerJobs();
+        toast.info(`🌌 Job #${jobId} has been closed!`, {
+          position: "top-right",
+          autoClose: 5000,
+          theme: theme,
+        });
+      };
+
       contract.on("JobListed", onJobListed);
       contract.on("ApplicationSubmitted", onApplicationSubmitted);
+      contract.on("JobClosed", onJobClosed);
 
       fetchEmployerJobs();
 
       return () => {
         contract.off("JobListed", onJobListed);
         contract.off("ApplicationSubmitted", onApplicationSubmitted);
+        contract.off("JobClosed", onJobClosed);
       };
     }
   }, [contract, theme]);
 
-  // List a job
   const listJob = async () => {
     if (!contract) return;
     try {
@@ -144,7 +166,6 @@ function App() {
     }
   };
 
-  // Apply to a job
   const applyToJob = async () => {
     if (!contract || !jobId) return;
     try {
@@ -157,25 +178,26 @@ function App() {
     }
   };
 
-  // Get job details
   const getJobDetails = async () => {
     if (!contract || !jobId) return;
     try {
       const job = await contract.getJob(parseInt(jobId));
+      console.log(`Job ${jobId} Raw Status (getJobDetails):`, job.status);
+      const jobStatus = Number(job.status) === 0 ? "Open" : "Closed";
       setJobDetails({
         employer: job.employer,
         title: job.title,
         descriptionHash: job.descriptionHash,
         applicationLimit: job.applicationLimit.toString(),
         applicationsCount: job.applicationsCount.toString(),
-        status: job.status === 0 ? "Open" : "Closed",
+        status: jobStatus,
       });
     } catch (error) {
       alert("Error: " + (error.reason || error.message));
+      console.error("Error in getJobDetails:", error);
     }
   };
 
-  // Close a job
   const closeJob = async () => {
     if (!contract || !jobId) return;
     try {
@@ -189,13 +211,14 @@ function App() {
     }
   };
 
-  // Filter jobs
   const filteredJobs = employerJobs.filter((job) => {
     if (filter === "All") return true;
-    return job.status === filter;
+    if (filter === 'Open') return job.status.toLowerCase() === 'open';
+    if (filter === 'Closed') return job.status.toLowerCase() === 'closed';
+    return true;
   });
+  console.log('Filter:', filter, 'Filtered Jobs:', filteredJobs);
 
-  // Particle initialization
   const particlesInit = async (engine) => {
     await loadSlim(engine);
   };
