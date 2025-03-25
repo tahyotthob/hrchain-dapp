@@ -1,20 +1,38 @@
 /* Cosmic Background */
-.App.dark {
+.App {
   min-height: 100vh;
-  background: linear-gradient(135deg, #050014 0%, #1a0b2e 100%); /* Darker gradient */
-  color: #e0d6ff;
-  font-family: 'Montserrat', sans-serif;
-  position: relative;
-  overflow-x: hidden;
+  transition: all 0.3s ease;
 }
 
+/* Dark Theme */
+.App.dark {
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+}
+
+.App.dark .job-card {
+  background-color: #2a2a4e;
+  border: 1px solid #4a4a8e;
+}
+
+.App.dark .glow-btn {
+  background: linear-gradient(45deg, #ff6f61, #de4d4d);
+}
+
+/* Light Theme */
 .App.light {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%);
-  color: #1a0b2e;
-  font-family: 'Montserrat', sans-serif;
-  position: relative;
-  overflow-x: hidden;
+  background-color: #f0f0f5;
+  color: #333;
+}
+
+.App.light .job-card {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.App.light .glow-btn {
+  background: linear-gradient(45deg, #61ff6f, #4dde4d);
 }
 
 /* Header */
